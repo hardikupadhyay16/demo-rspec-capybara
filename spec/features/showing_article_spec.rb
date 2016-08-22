@@ -3,7 +3,9 @@ require "rails_helper"
 RSpec.feature "Showing an article" do 
   
   before do
-    @article = Article.create(title: "The first article", body: "Body of article.")
+    @hd = User.create(email: "hd@example.com", password: "password")
+    login_as(@hd)
+    @article = Article.create(title: "The first article", body: "Body of article.", user: @hd)
   end
 
   scenario "Display individual article" do
