@@ -22,9 +22,11 @@ class ArticlesController < ApplicationController
   end
   
   def edit
+    authorize_user!
   end
 
   def update
+    authorize_user!
     if @article.update(article_params)
       flash[:success] = "Article has been updated"
       redirect_to @article
@@ -49,7 +51,16 @@ class ArticlesController < ApplicationController
   def set_article
     @article = Article.find(params[:id])
   end
+
   def article_params
     params.require(:article).permit(:title,:body)
+  end
+
+  def authorize_user!
+    if @article.user != current_user
+      flash[:danger] = "You can only edit your own article."
+      redirect_to root_path
+      return
+    end
   end
 end
