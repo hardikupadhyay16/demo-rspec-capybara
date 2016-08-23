@@ -3,7 +3,6 @@ require "rails_helper"
 RSpec.feature "Listing Articles" do
   before do
     @hd = User.create(email: "hd@example.com", password: "password")
-    login_as(@hd)
     @article1 = Article.create(title: "The first article", body: "Body of first Article", user: @hd)
     @article2 = Article.create(title: "The second article", body: "Body of second Article", user: @hd)
   end
@@ -17,5 +16,6 @@ RSpec.feature "Listing Articles" do
     expect(page).to have_content(@article2.body)
     expect(page).to have_link(@article1.title)
     expect(page).to have_link(@article2.title)
+    expect(page).not_to have_link("New Article")
   end
 end
